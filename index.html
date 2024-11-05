@@ -1,52 +1,101 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Organizador de Procesos</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        margin: 0;
+      }
 
-        h1 {
-            text-align: center;
-        }
+      h1 {
+        text-align: center;
+      }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
+      button {
+        height: 50px;
+        width: auto;
+      }
 
-        .box {
-            width: 200px;
-            height: 150px;
-            border: 2px solid #333;
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
+      .container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .box {
+        width: 200px;
+        height: 150px;
+        border: 2px solid #333;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Organizador de Procesos</h1>
 
     <div class="container">
-        <div class="box">Texto 1</div>
-        <div class="box">Texto 2</div>
-        <div class="box">Texto 3</div>
+      <div id="Box1" class="box"></div>
+      <div class="box">Texto 2</div>
+      <div class="box">Texto 3</div>
     </div>
+    <button onclick="test();">Nombre</button>
+    <script>
+      class Proceso {
+        constructor(
+          nombre,
+          propietario,
+          departamento,
+          tiempoEjecucionEstimado,
+          cantidadMateriales,
+          localizacionOrigen,
+          localizacionFinal
+        ) {
+          this.nombre = nombre;
+          this.propietario = propietario;
+          this.departamento = departamento;
+          this.tiempoEjecucionEstimado = tiempoEjecucionEstimado;
+          this.cantidadMateriales = cantidadMateriales;
+          this.localizacionOrigen = localizacionOrigen;
+          this.localizacionFinal = localizacionFinal;
+        }
 
-    <script>src="script.js"</script>
-</body>
+        setNombre(_nombre) {
+          this.nombre = _nombre;
+        }
+
+        getNombre() {
+          return this.nombre;
+        }
+      }
+      let proceso;
+      proceso = new Proceso(
+        "Manufactura",
+        "Jose",
+        "Ventas",
+        50,
+        50,
+        "Georgia",
+        "Kentucky"
+      );
+
+      function test() {
+        document.getElementById("Box1").innerHTML = proceso.getNombre();
+      }
+
+      
+    </script>
+  </body>
 </html>
