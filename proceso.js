@@ -81,3 +81,4 @@ class Proceso {
     this.tiempoDeEnvio = resultado.distance;
   }
 }
+
