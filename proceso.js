@@ -1,29 +1,8 @@
-class Proceso {
-  constructor(
-    nombreProducto,
-    hatMaterial,
-    volumen,
-    urgencia,
-    tiempoDeEnvio,
-    localizacionOrigen,
-    localizacionFinal,
-    graph // Agregar el grafo como parámetro
-  ) {
-    this.nombreProducto = nombreProducto;
-    this.hatMaterial = hatMaterial;
-    this.volumen = volumen;
-    this.urgencia = urgencia;
-    this.localizacionOrigen = localizacionOrigen;
-    this.localizacionFinal = localizacionFinal;
-
-    // Calcular el tiempo de envío usando Dijkstra
-    const resultado = dijkstra(graph, localizacionOrigen, localizacionFinal);
-    this.tiempoDeEnvio = resultado.distance;
-  }
-}
-
 
 function dijkstra(graph, startNode, endNode) {
+
+ 
+
   let distances = {};
   let previousNodes = {};
   let unvisitedNodes = graph.nodes.get().map(node => node.id); // Obtener la lista de IDs de nodos
@@ -36,6 +15,9 @@ function dijkstra(graph, startNode, endNode) {
   distances[startNode] = 0;
 
   while (unvisitedNodes.length) {
+
+    
+
     // Encontrar el nodo con la distancia más corta
     let currentNode = unvisitedNodes.reduce((minNode, node) => 
       distances[node] < distances[minNode] ? node : minNode
@@ -74,4 +56,28 @@ function dijkstra(graph, startNode, endNode) {
     distance: distances[endNode],
     path: path,
   };
+}
+
+class Proceso {
+  constructor(
+    nombreProducto,
+    hatMaterial,
+    volumen,
+    urgencia,
+    tiempoDeEnvio,
+    localizacionOrigen,
+    localizacionFinal,
+    graph // Agregar el grafo como parámetro
+  ) {
+    this.nombreProducto = nombreProducto;
+    this.hatMaterial = hatMaterial;
+    this.volumen = volumen;
+    this.urgencia = urgencia;
+    this.localizacionOrigen = localizacionOrigen;
+    this.localizacionFinal = localizacionFinal;
+
+    // Calcular el tiempo de envío usando Dijkstra
+    const resultado = dijkstra(graph, localizacionOrigen, localizacionFinal);
+    this.tiempoDeEnvio = resultado.distance;
+  }
 }
