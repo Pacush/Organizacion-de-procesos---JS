@@ -50,17 +50,24 @@
     <input type="submit" value="Crear Proceso" />
   </form>
 
+  <h2>Grafo de la ciudad</h2>
   <div id="mynetwork"></div>
 
   <h2>Listado de Procesos</h2>
-  <table id="processTable" border="1">
-    <tr>
-      <th>Nombre</th>
-      <th>Origen</th>
-      <th>Destino</th>
-      <th>¿Hay Material?</th>
-    </tr>
-  </table>
+
+  <div class"contenedorTabla">
+    <table id="processTable" border="1">
+      <tr>
+        <th>Nombre</th>
+        <th>Origen</th>
+        <th>Destino</th>
+        <th>¿Hay Material?</th>
+        <th>Acciones</th>
+      </tr>
+    </table>
+  </div>
+
+
 
   <script>
     // Define the nodes (cities near Guadalajara, including Guadalajara)
@@ -75,15 +82,15 @@
 
     // Define the edges with weights (arbitrary distances)
     const edges = new vis.DataSet([
-      { from: 1, to: 2, label: "10 km", width: 3 }, // Guadalajara <-> Zapopan
-      { from: 1, to: 3, label: "7 km", width: 2 }, // Guadalajara <-> Tlaquepaque
-      { from: 1, to: 4, label: "25 km", width: 5 }, // Guadalajara <-> Tlajomulco
-      { from: 1, to: 5, label: "15 km", width: 4 }, // Guadalajara <-> Tonalá
-      { from: 1, to: 6, label: "20 km", width: 4 }, // Guadalajara <-> El Salto
-      { from: 2, to: 3, label: "12 km", width: 3 }, // Zapopan <-> Tlaquepaque
-      { from: 3, to: 4, label: "18 km", width: 3 }, // Tlaquepaque <-> Tlajomulco
-      { from: 4, to: 5, label: "22 km", width: 4 }, // Tlajomulco <-> Tonalá
-      { from: 5, to: 6, label: "8 km", width: 2 }, // Tonalá <-> El Salto
+      { from: 1, to: 2, label: "10 km", width: 1 }, // Guadalajara <-> Zapopan
+      { from: 1, to: 3, label: "7 km", width: .7 }, // Guadalajara <-> Tlaquepaque
+      { from: 1, to: 4, label: "25 km", width: 2.5 }, // Guadalajara <-> Tlajomulco
+      { from: 1, to: 5, label: "15 km", width: 1.5 }, // Guadalajara <-> Tonalá
+      { from: 1, to: 6, label: "20 km", width: 2 }, // Guadalajara <-> El Salto
+      { from: 2, to: 3, label: "12 km", width: 1.2 }, // Zapopan <-> Tlaquepaque
+      { from: 3, to: 4, label: "18 km", width: 1.8 }, // Tlaquepaque <-> Tlajomulco
+      { from: 4, to: 5, label: "22 km", width: 2.2 }, // Tlajomulco <-> Tonalá
+      { from: 5, to: 6, label: "8 km", width: .8 }, // Tonalá <-> El Salto
     ]);
 
     // Create the network
@@ -112,10 +119,6 @@
         const urgencia = parseInt(document.getElementById("urgencia").value);
         const localizacionOrigen = parseInt(document.getElementById("localizacionOrigen").value);
         const localizacionFinal = parseInt(document.getElementById("localizacionFinal").value);
-
-        //const localizacionOrigen = cityNameToId[nombreLocalizacionOrigen];
-        //const localizacionFinal = cityNameToId[nombreLocalizacionFinal];
-        console.log(localizacionOrigen, localizacionFinal)
 
 
         // Crear un nuevo proceso
@@ -146,9 +149,24 @@
         materialCheckbox.type = "checkbox";
         materialCheckbox.checked = nuevoProceso.hatMaterial;
         materialCheckbox.addEventListener("change", function () {
-          nuevoProceso.hatMaterial = materialCheckbox.checked;
+          nuevoProceso.hayMaterial = materialCheckbox.checked;
         });
         materialCell.appendChild(materialCheckbox);
+
+        const deleteCell = row.insertCell(4);
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Eliminar";
+        deleteButton.addEventListener("click", function () {
+          // Encontrar el índice del proceso en la lista
+          const index = procesos.indexOf(nuevoProceso);
+          if (index > -1) {
+            // Eliminar el proceso de la lista
+            procesos.splice(index, 1);
+            // Eliminar la fila de la tabla
+            table.deleteRow(row.rowIndex);
+          }
+        });
+        deleteCell.appendChild(deleteButton);
 
         // Limpiar el formulario
         document.getElementById("processForm").reset();
@@ -166,6 +184,7 @@
       };
       return cityMap[id] || "Desconocido";
     }
+
 
   </script>
 </body>

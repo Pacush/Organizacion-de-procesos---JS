@@ -1,8 +1,5 @@
 
 function dijkstra(graph, startNode, endNode) {
-
- 
-
   let distances = {};
   let previousNodes = {};
   let unvisitedNodes = graph.nodes.get().map(node => node.id); // Obtener la lista de IDs de nodos
@@ -15,8 +12,6 @@ function dijkstra(graph, startNode, endNode) {
   distances[startNode] = 0;
 
   while (unvisitedNodes.length) {
-
-    
 
     // Encontrar el nodo con la distancia más corta
     let currentNode = unvisitedNodes.reduce((minNode, node) => 
@@ -61,7 +56,7 @@ function dijkstra(graph, startNode, endNode) {
 class Proceso {
   constructor(
     nombreProducto,
-    hatMaterial,
+    hayMaterial,
     volumen,
     urgencia,
     tiempoDeEnvio,
@@ -70,7 +65,7 @@ class Proceso {
     graph // Agregar el grafo como parámetro
   ) {
     this.nombreProducto = nombreProducto;
-    this.hatMaterial = hatMaterial;
+    this.hayMaterial = hayMaterial;
     this.volumen = volumen;
     this.urgencia = urgencia;
     this.localizacionOrigen = localizacionOrigen;
@@ -81,4 +76,3 @@ class Proceso {
     this.tiempoDeEnvio = resultado.distance;
   }
 }
-
