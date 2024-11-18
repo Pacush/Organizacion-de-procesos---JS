@@ -62,7 +62,8 @@ class Proceso {
     tiempoDeEnvio,
     localizacionOrigen,
     localizacionFinal,
-    graph // Agregar el grafo como parámetro
+    graph, // Agregar el grafo como parámetro
+    prioridad
   ) {
     this.nombreProducto = nombreProducto;
     this.hayMaterial = hayMaterial;
@@ -74,5 +75,6 @@ class Proceso {
     // Calcular el tiempo de envío usando Dijkstra
     const resultado = dijkstra(graph, localizacionOrigen, localizacionFinal);
     this.tiempoDeEnvio = resultado.distance;
+    this.prioridad = urgencia + tiempoDeEnvio;
   }
 }
