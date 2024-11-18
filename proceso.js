@@ -78,3 +78,25 @@ class Proceso {
     this.prioridad = urgencia + tiempoDeEnvio;
   }
 }
+
+function quickSort(arr) {
+  if (arr.length <= 1) {
+    return arr; // Caso base: la lista ya está ordenada o vacía
+  }
+
+  const pivot = arr[arr.length - 1]; // Elegimos el último elemento como pivote
+  const left = [];
+  const right = [];
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    // Ordenar de mayor a menor basado en la prioridad
+    if (arr[i].prioridad > pivot.prioridad) {
+      left.push(arr[i]); // Elementos con prioridad mayor van al lado izquierdo
+    } else {
+      right.push(arr[i]); // Elementos con prioridad menor o igual van al lado derecho
+    }
+  }
+
+  // Combina el resultado: elementos mayores (izquierda) + pivote + elementos menores (derecha)
+  return [...quickSort(left), pivot, ...quickSort(right)];
+}
