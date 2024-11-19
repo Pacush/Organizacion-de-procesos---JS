@@ -214,6 +214,7 @@
           materialCheckbox.checked = proceso.hayMaterial;
           materialCheckbox.addEventListener("change", function () {
             proceso.hayMaterial = materialCheckbox.checked;
+            actualizarPrioridad(proceso);
             actualizarTabla();
           });
           materialCell.appendChild(materialCheckbox);
