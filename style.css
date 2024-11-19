@@ -4,8 +4,11 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    margin: 0;
+    margin: auto;
+    background: linear-gradient(to bottom right,
+    #c4c4d7,
+    #efe),40%;
+    background-size: cover;
   }
 
   h1 {
@@ -17,12 +20,151 @@ body {
     width: auto;
   }
 
-  .container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+.encabezado{
+  font-size: 1vw;
+  background: #efe;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  font-variant: small-caps;
+}
+
+.formulario{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  border: outset 3px #010;
+  padding: 3%;
+  margin: 2.5%;
+  border-radius: 15px;
+  background: url(img5.jpg);
+  background-size: cover;
+  width: 40%;
+  color: #010;
+}
+
+.btn {
+  border: outset, 3px, #66d1b3;
+  background: /*--c2:*/ #02C08A;
+  color: #ffffff;
+  font-size: 1vw;
+  line-height: 25px;
+  padding: 10px;
+  text-decoration: none;
+  text-shadow: none;
+  border-radius: 10px;
+  box-shadow: none;
+  transition: 0.25s;
+  width: 40%;
+  margin: 15px auto;
+  margin-bottom: 10px;
+}
+
+.btn:hover{
+  background: /*--c2:*/ #078955;
+}
+
+.f_in{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  text-align: right;
+  align-content: center;
+  color: #010;
+}
+
+.f_in label{
+  color: #010;
+}
+.f_in input, select, label{
+  width: 48%;
+  padding: 5px;
+  margin: 5px;
+  font-size: 1.2vw;
+}
+
+.f_in input,select{
+  border-radius: 5px;
+  border: outset 3px #000;
+}
+#hatMaterial{
+  border-radius: 50px;
+  border: solid 5px;
+}
+
+#txt{
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  width: 50%;
+  color:#010;
+  font-size: 1.2vw;
   }
+  
+
+.checkbox{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: right;
+}
+.checkbox label, p{
+  display: flex;
+  align-items: center;
+  width: 50%;
+  color:#efe;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  gap: 20px;
+  margin: 20px;
+  padding: 20px;
+  background: url(img6.png);
+  background-size: cover;
+  border: outset 3px #151;
+  border-radius: 15px;
+  color: #efe;
+  width: 90%;
+}
+.container *{
+  width: 48%;
+}
+
+.grafo_cont, .lis_proceso{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+.contenedorTabla{
+width: 90%;
+margin: 5px;
+}
+
+#processTable{
+  text-align: center;
+  background: #1a282b;
+  width: 100%;
+  font-size: 1vw;
+}
+
+#processTable tr{
+  width: fit-content;
+  padding: 1vw;
+  margin: 0.5vw;
+}
+#processTable tr button{
+  width: fit-content;
+  margin: 1vw;
+  text-align: center;
+}
 
   .box {
     width: 200px;
@@ -40,12 +182,73 @@ body {
   }
 
   #mynetwork {
-    width: 600px;
-    height: 400px;
+    width: 40vw;
+    height: 30vw;
     border: 1px solid lightgray;
+    /*pointer-events: none;*/
+    background: #efe;
   }
 
   #processForm {
     padding-bottom: 20px;
+  }
 
+
+  .checkbox *,
+  .checkbox ::after,
+  .checkbox ::before {
+    box-sizing: border-box;
+  }
+
+  .checkbox .container1 input {
+    opacity: 1;
+    -webkit-appearance: none;
+    cursor: pointer;
+    height: 40px;
+    width: 40px;
+    box-shadow: -10px -10px 15px rgba(255,255,255,0.5),
+    10px 10px 15px rgba(0,0,70,0.12);
+    border-radius: 50%;
+    border: 8px solid #ececec;
+    outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s;
+  }
+
+  .checkbox .container1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .checkbox .container1 input::after {
+    transition: .5s;
+    font-family: monospace;
+    content: '';
+    color: #7a7a7a;
+    font-size: 25px;
+    left: 0.45em;
+    top: 0.25em;
+    width: 0.25em;
+    height: 0.5em;
+    border: solid #7a7a7a;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
+  }
+
+  .checkbox .container1 input:checked {
+    box-shadow: -10px -10px 15px #a1ffc53f,
+    10px 10px 15px #a1ffb543,
+    inset -10px -10px 15px #23fe4077,
+    inset 10px 10px 15px #23fe4077;
+    transition: .5s;
+  }
+
+  .checkbox .container1 input:checked::after {
+    transition: .5s;
+    border: solid 15px #fff;
+    border-width: 0 0.15em 0.15em 0;
+    transform: rotate(45deg);
   }

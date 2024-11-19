@@ -1,191 +1,237 @@
 <!DOCTYPE html>
 <html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Planificador de producción</title>
+    <script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
+    <script src="proceso.js"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Planificador de producción</title>
-  <script src="https://unpkg.com/vis-network@9.1.2/dist/vis-network.min.js"></script>
-  <script src="proceso.js"></script>
-  <link rel="stylesheet" href="style.css" />
-</head>
+  <body>
+    <div class="encabezado">
+      <h1>Planificador de producción</h1>
+    </div>
+    <div class="formulario">
+      <h2>Crear Proceso</h2>
+      <form id="processForm">
+        <div class="f_in" id="nom">
+          <label for="nombreProducto">Nombre del Producto:</label>
+          <input
+            type="text"
+            id="nombreProducto"
+            name="nombreProducto"
+            required
+          /><br /><br />
+        </div>
 
-<body>
-  <h1>Planificador de producción</h1>
+        <div class="checkbox" id="mat">
+          <div id="txt" for="hatMaterial">Hay material</div>
+          <label class="container1">
+            <input type="checkbox" id="hatMaterial" name="hatMaterial" />
+            <div class="checkmark"></div>
+          </label>
+        </div>
 
-  <h2>Crear Proceso</h2>
-  <form id="processForm">
-    <label for="nombreProducto">Nombre del Producto:</label>
-    <input type="text" id="nombreProducto" name="nombreProducto" required /><br /><br />
+        <div class="f_in" id="vol">
+          <label for="volumen">Volumen:</label>
+          <input
+            type="number"
+            id="volumen"
+            name="volumen"
+            required
+          /><br /><br />
+        </div>
+        <div class="f_in" id="ur">
+          <label for="urgencia">Urgencia (1-3):</label>
+          <input
+            type="number"
+            id="urgencia"
+            name="urgencia"
+            min="1"
+            max="3"
+            required
+          /><br /><br />
+        </div>
+        <div class="f_in" id="loc">
+          <label for="localizacionOrigen">Localización de Origen:</label>
+          <select id="localizacionOrigen" name="localizacionOrigen">
+            <option value="1">Guadalajara</option>
+            <option value="2">Zapopan</option>
+            <option value="3">Tlaquepaque</option>
+            <option value="4">Tlajomulco</option>
+            <option value="5">Tonalá</option>
+            <option value="6">El Salto</option></select
+          ><br /><br />
+        </div>
+        <div class="f_in" id="loc">
+          <label for="localizacionFinal">Localización de Destino:</label>
+          <select id="localizacionFinal" name="localizacionFinal">
+            <option value="1">Guadalajara</option>
+            <option value="2">Zapopan</option>
+            <option value="3">Tlaquepaque</option>
+            <option value="4">Tlajomulco</option>
+            <option value="5">Tonalá</option>
+            <option value="6">El Salto</option></select
+          ><br /><br />
+        </div>
+        <input class="btn" type="submit" value="Crear Proceso" />
+      </form>
+    </div>
 
-    <label for="hatMaterial">Hay Material:</label>
-    <input type="checkbox" id="hatMaterial" name="hatMaterial" /><br /><br />
+    <div class="container">
+      <div class="grafo_cont">
+        <h2>Grafo de la ciudad</h2>
+        <div id="mynetwork"></div>
+      </div>
+      <div class="lis_proceso">
+        <h2>Listado de Procesos</h2>
+        <div class="contenedorTabla">
+          <table id="processTable" border="1">
+            <tr>
+              <th>Nombre</th>
+              <th>Origen</th>
+              <th>Destino</th>
+              <th>¿Hay Material?</th>
+              <th id="acc">Acciones</th>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
 
-    <label for="volumen">Volumen:</label>
-    <input type="number" id="volumen" name="volumen" required /><br /><br />
+    <script>
+      const nodes = new vis.DataSet([
+        { id: 1, label: "Guadalajara" },
+        { id: 2, label: "Zapopan" },
+        { id: 3, label: "Tlaquepaque" },
+        { id: 4, label: "Tlajomulco" },
+        { id: 5, label: "Tonalá" },
+        { id: 6, label: "El Salto" },
+      ]);
 
-    <label for="urgencia">Urgencia (1-3):</label>
-    <input type="number" id="urgencia" name="urgencia" min="1" max="3" required /><br /><br />
+      const edges = new vis.DataSet([
+        { from: 1, to: 2, label: "10 km", width: 1 },
+        { from: 1, to: 3, label: "7 km", width: 0.7 },
+        { from: 1, to: 4, label: "25 km", width: 2.5 },
+        { from: 1, to: 5, label: "15 km", width: 1.5 },
+        { from: 1, to: 6, label: "20 km", width: 2 },
+        { from: 2, to: 3, label: "12 km", width: 1.2 },
+        { from: 3, to: 4, label: "18 km", width: 1.8 },
+        { from: 4, to: 5, label: "22 km", width: 2.2 },
+        { from: 5, to: 6, label: "8 km", width: 0.8 },
+      ]);
 
-    <label for="localizacionOrigen">Localización de Origen:</label>
-    <select id="localizacionOrigen" name="localizacionOrigen">
-      <option value="1">Guadalajara</option>
-      <option value="2">Zapopan</option>
-      <option value="3">Tlaquepaque</option>
-      <option value="4">Tlajomulco</option>
-      <option value="5">Tonalá</option>
-      <option value="6">El Salto</option>
-    </select><br /><br />
+      const container = document.getElementById("mynetwork");
+      const data = { nodes: nodes, edges: edges };
+      const options = {};
 
-    <label for="localizacionFinal">Localización de Destino:</label>
-    <select id="localizacionFinal" name="localizacionFinal">
-      <option value="1">Guadalajara</option>
-      <option value="2">Zapopan</option>
-      <option value="3">Tlaquepaque</option>
-      <option value="4">Tlajomulco</option>
-      <option value="5">Tonalá</option>
-      <option value="6">El Salto</option>
-    </select><br /><br />
+      const network = new vis.Network(container, data, options);
 
-    <input type="submit" value="Crear Proceso" />
-  </form>
+      const procesos = [];
 
-  <h2>Grafo de la ciudad</h2>
-  <div id="mynetwork"></div>
+      document
+        .getElementById("processForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
 
-  <h2>Listado de Procesos</h2>
+          const nombreProducto =
+            document.getElementById("nombreProducto").value;
+          const hayMaterial = document.getElementById("hatMaterial").checked;
+          const volumen = parseInt(document.getElementById("volumen").value);
+          const urgencia = parseInt(document.getElementById("urgencia").value);
+          const localizacionOrigen = parseInt(
+            document.getElementById("localizacionOrigen").value
+          );
+          const localizacionFinal = parseInt(
+            document.getElementById("localizacionFinal").value
+          );
 
-  <div class"contenedorTabla">
-    <table id="processTable" border="1">
-      <tr>
-        <th>Nombre</th>
-        <th>Origen</th>
-        <th>Destino</th>
-        <th>¿Hay Material?</th>
-        <th>Acciones</th>
-      </tr>
-    </table>
-  </div>
+          const nuevoProceso = new Proceso(
+            nombreProducto,
+            hayMaterial,
+            volumen,
+            urgencia,
+            0,
+            localizacionOrigen,
+            localizacionFinal,
+            data,
+            0
+          );
+          
+          actualizarPrioridad(nuevoProceso);
+          console.log("Proceso: " + nuevoProceso.nombreProducto + "\nPrioridad: " + nuevoProceso.prioridad);
 
+          procesos.push(nuevoProceso);
+          actualizarTabla();
+          document.getElementById("processForm").reset();
+        });
 
+      function actualizarPrioridad(proceso) {
+        if (proceso.hayMaterial) {
+          proceso.prioridad = proceso.urgencia + proceso.tiempoDeEnvio;
+        } else {
+          proceso.prioridad = 0;
+        }
+      }
 
-  <script>
-    // Define the nodes (cities near Guadalajara, including Guadalajara)
-    const nodes = new vis.DataSet([
-      { id: 1, label: "Guadalajara" },
-      { id: 2, label: "Zapopan" },
-      { id: 3, label: "Tlaquepaque" },
-      { id: 4, label: "Tlajomulco" },
-      { id: 5, label: "Tonalá" },
-      { id: 6, label: "El Salto" },
-    ]);
+      function getCityNameById(id) {
+        const cityMap = {
+          1: "Guadalajara",
+          2: "Zapopan",
+          3: "Tlaquepaque",
+          4: "Tlajomulco",
+          5: "Tonalá",
+          6: "El Salto",
+        };
+        return cityMap[id] || "Desconocido";
+      }
 
-    // Define the edges with weights (arbitrary distances)
-    const edges = new vis.DataSet([
-      { from: 1, to: 2, label: "10 km", width: 1 }, // Guadalajara <-> Zapopan
-      { from: 1, to: 3, label: "7 km", width: .7 }, // Guadalajara <-> Tlaquepaque
-      { from: 1, to: 4, label: "25 km", width: 2.5 }, // Guadalajara <-> Tlajomulco
-      { from: 1, to: 5, label: "15 km", width: 1.5 }, // Guadalajara <-> Tonalá
-      { from: 1, to: 6, label: "20 km", width: 2 }, // Guadalajara <-> El Salto
-      { from: 2, to: 3, label: "12 km", width: 1.2 }, // Zapopan <-> Tlaquepaque
-      { from: 3, to: 4, label: "18 km", width: 1.8 }, // Tlaquepaque <-> Tlajomulco
-      { from: 4, to: 5, label: "22 km", width: 2.2 }, // Tlajomulco <-> Tonalá
-      { from: 5, to: 6, label: "8 km", width: .8 }, // Tonalá <-> El Salto
-    ]);
-
-    // Create the network
-    const container = document.getElementById("mynetwork");
-    const data = { nodes: nodes, edges: edges };
-    const options = {};
-
-    const network = new vis.Network(container, data, options);
-
-    const testProceso = new Proceso("Test", true, 1, 1, 0, 1, 2, data);
-
-    // Lista para almacenar los procesos
-    const procesos = [];
-
-    document
-      .getElementById("processForm")
-      .addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        // Obtener los valores del formulario
-        const nombreProducto =
-          document.getElementById("nombreProducto").value;
-        const hatMaterial = document.getElementById("hatMaterial").checked;
-        const volumen = parseInt(document.getElementById("volumen").value);
-        const urgencia = parseInt(document.getElementById("urgencia").value);
-        const localizacionOrigen = parseInt(document.getElementById("localizacionOrigen").value);
-        const localizacionFinal = parseInt(document.getElementById("localizacionFinal").value);
-
-
-        // Crear un nuevo proceso
-        const nuevoProceso = new Proceso(
-          nombreProducto,
-          hatMaterial,
-          volumen,
-          urgencia,
-          0,
-          localizacionOrigen,
-          localizacionFinal,
-          data
-        );
-
-        // Agregar el proceso a la lista
-        procesos.push(nuevoProceso);
-
-        // Agregar el proceso a la tabla
+      function actualizarTabla() {
+        const procesosOrdenados = quickSort(procesos);
         const table = document.getElementById("processTable");
-        const row = table.insertRow();
-        row.insertCell(0).textContent = nuevoProceso.nombreProducto;
-        row.insertCell(1).textContent = getCityNameById(localizacionOrigen);
-        row.insertCell(2).textContent = getCityNameById(localizacionFinal);
+        while (table.rows.length > 1) {
+          table.deleteRow(1);
+        }
 
-        // Crear un checkbox para "¿Hay Material?"
-        const materialCell = row.insertCell(3);
-        const materialCheckbox = document.createElement("input");
-        materialCheckbox.type = "checkbox";
-        materialCheckbox.checked = nuevoProceso.hatMaterial;
-        materialCheckbox.addEventListener("change", function () {
-          nuevoProceso.hayMaterial = materialCheckbox.checked;
+        procesosOrdenados.forEach((proceso) => {
+          
+
+
+          const row = table.insertRow();
+          row.insertCell(0).textContent = proceso.nombreProducto;
+          row.insertCell(1).textContent = getCityNameById(
+            proceso.localizacionOrigen
+          );
+          row.insertCell(2).textContent = getCityNameById(
+            proceso.localizacionFinal
+          );
+
+          const materialCell = row.insertCell(3);
+          const materialCheckbox = document.createElement("input");
+          materialCheckbox.type = "checkbox";
+          materialCheckbox.checked = proceso.hayMaterial;
+          materialCheckbox.addEventListener("change", function () {
+            proceso.hayMaterial = materialCheckbox.checked;
+            actualizarTabla();
+          });
+          materialCell.appendChild(materialCheckbox);
+
+          const deleteCell = row.insertCell(4);
+          const deleteButton = document.createElement("button");
+          deleteButton.className = "btn";
+          deleteButton.textContent = "Eliminar";
+          deleteButton.addEventListener("click", function () {
+            const index = procesosOrdenados.indexOf(proceso);
+            if (index > -1) {
+              procesosOrdenados.splice(index, 1);
+              actualizarTabla();
+            }
+          });
+          deleteCell.appendChild(deleteButton);
         });
-        materialCell.appendChild(materialCheckbox);
-
-        const deleteCell = row.insertCell(4);
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "Eliminar";
-        deleteButton.addEventListener("click", function () {
-          // Encontrar el índice del proceso en la lista
-          const index = procesos.indexOf(nuevoProceso);
-          if (index > -1) {
-            // Eliminar el proceso de la lista
-            procesos.splice(index, 1);
-            // Eliminar la fila de la tabla
-            table.deleteRow(row.rowIndex);
-          }
-        });
-        deleteCell.appendChild(deleteButton);
-
-        // Limpiar el formulario
-        document.getElementById("processForm").reset();
-      });
-
-    // Función auxiliar para obtener el nombre de la ciudad por ID
-    function getCityNameById(id) {
-      const cityMap = {
-        1: "Guadalajara",
-        2: "Zapopan",
-        3: "Tlaquepaque",
-        4: "Tlajomulco",
-        5: "Tonalá",
-        6: "El Salto",
-      };
-      return cityMap[id] || "Desconocido";
-    }
-
-
-  </script>
-</body>
-
+      }
+    </script>
+  </body>
 </html>

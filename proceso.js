@@ -77,6 +77,9 @@ class Proceso {
     this.tiempoDeEnvio = resultado.distance;
     this.prioridad = urgencia + tiempoDeEnvio;
   }
+
+  
+
 }
 
 function quickSort(arr) {
@@ -100,3 +103,5 @@ function quickSort(arr) {
   // Combina el resultado: elementos mayores (izquierda) + pivote + elementos menores (derecha)
   return [...quickSort(left), pivot, ...quickSort(right)];
 }
+
+
